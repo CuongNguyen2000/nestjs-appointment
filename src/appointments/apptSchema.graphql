@@ -1,0 +1,30 @@
+type Appointment {
+    id: ID!
+    author: User!
+    start_date: String!
+    end_date: String!
+    createdAt: String!
+}
+
+input NewAppointment {
+    author: ID!
+    start_date: String!
+    end_date: String!
+}
+
+input UpdateAppointment {
+    id: ID!
+    start_date: String
+    end_date: String
+}
+
+type Query {
+    appointments: [Appointment!]!
+    appointment(id: ID!): Appointment
+}
+
+type Mutation {
+    createPost(input: NewAppointment): Appointment!
+    updatePost(input: UpdateAppointment): Appointment
+    deletePost(id: ID!): Appointment
+}
