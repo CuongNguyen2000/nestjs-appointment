@@ -7,13 +7,13 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class NewAppointment {
+export class NewAppt {
     author: string;
     start_date: string;
     end_date: string;
 }
 
-export class UpdateAppointment {
+export class UpdateAppt {
     id: string;
     start_date?: Nullable<string>;
     end_date?: Nullable<string>;
@@ -52,11 +52,11 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract createPost(input?: Nullable<NewAppointment>): Appointment | Promise<Appointment>;
+    abstract createAppt(input?: Nullable<NewAppt>): Appointment | Promise<Appointment>;
 
-    abstract updatePost(input?: Nullable<UpdateAppointment>): Nullable<Appointment> | Promise<Nullable<Appointment>>;
+    abstract updateAppt(input?: Nullable<UpdateAppt>): Nullable<Appointment> | Promise<Nullable<Appointment>>;
 
-    abstract deletePost(id: string): Nullable<Appointment> | Promise<Nullable<Appointment>>;
+    abstract deleteAppt(id: string): Nullable<Appointment> | Promise<Nullable<Appointment>>;
 
     abstract createUser(input?: Nullable<NewUser>): User | Promise<User>;
 
