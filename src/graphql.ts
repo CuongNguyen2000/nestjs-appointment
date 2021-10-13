@@ -7,6 +7,12 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum EnumUserRole {
+    DOCTOR = "DOCTOR",
+    THERAPY = "THERAPY",
+    CARE_MANAGER = "CARE_MANAGER"
+}
+
 export class NewAppt {
     author: string;
     start_date: string;
@@ -24,6 +30,7 @@ export class NewUser {
     first_name: string;
     last_name: string;
     birthdate?: Nullable<string>;
+    role?: Nullable<EnumUserRole>;
     appointments?: Nullable<Nullable<string>[]>;
 }
 
@@ -33,6 +40,7 @@ export class UpdateUser {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
     birthdate?: Nullable<string>;
+    role?: Nullable<EnumUserRole>;
 }
 
 export class Appointment {
@@ -74,6 +82,7 @@ export class User {
     last_name: string;
     birthdate: string;
     appointments: Appointment[];
+    role?: Nullable<EnumUserRole>;
     createdAt: string;
 }
 
