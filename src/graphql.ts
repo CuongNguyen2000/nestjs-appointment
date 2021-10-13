@@ -20,6 +20,7 @@ export class UpdateAppt {
 }
 
 export class NewUser {
+    email: string;
     first_name: string;
     last_name: string;
     birthdate?: Nullable<string>;
@@ -28,6 +29,7 @@ export class NewUser {
 
 export class UpdateUser {
     id: string;
+    email?: Nullable<string>;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
     birthdate?: Nullable<string>;
@@ -67,6 +69,7 @@ export abstract class IMutation {
 
 export class User {
     id: string;
+    email: string;
     first_name: string;
     last_name: string;
     birthdate: string;

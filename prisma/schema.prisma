@@ -22,6 +22,7 @@ model Appointment {
 model User {
   id         Int           @id @default(autoincrement())
   role       Role
+  email      String        @unique
   first_name String        @db.VarChar(50)
   last_name  String        @db.VarChar(50)
   birthdate  DateTime?
