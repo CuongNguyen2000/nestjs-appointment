@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
 import { createUserDTO } from './dto/createUser.dto';
 import { updateUserDTO } from './dto/updateUser.dto';
-import { UserNotFoundException } from '../exceptions/userNotFound.exception';
+import { UserNotFoundException } from '../exceptions/NotFound.exception';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaError } from '../utils/prismaError';
 
