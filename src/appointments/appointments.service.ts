@@ -50,7 +50,7 @@ export class AppointmentsService {
             throw new HttpException('Start date must be greater than or equal to today', HttpStatus.BAD_REQUEST);
         } 
         
-        if (Date.parse(input.start_date) < Date.parse(input.end_date)) {
+        if (Date.parse(input.start_date) > Date.parse(input.end_date)) {
             throw new HttpException('End date must be less than start date', HttpStatus.BAD_REQUEST);
         }
 
