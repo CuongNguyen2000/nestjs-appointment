@@ -20,14 +20,14 @@ model Appointment {
 }
 
 model User {
-  id         Int           @id @default(autoincrement())
-  role       Role
-  email      String        @unique
-  first_name String        @db.VarChar(50)
-  last_name  String        @db.VarChar(50)
-  birthdate  DateTime?
-  posts      Appointment[]
-  createdAt  DateTime      @default(now())
+  id           Int           @id @default(autoincrement())
+  role         Role          @default(DOCTOR)
+  email        String        @unique
+  first_name   String        @db.VarChar(50)
+  last_name    String        @db.VarChar(50)
+  birthdate    DateTime?
+  appointments Appointment[]
+  createdAt    DateTime      @default(now())
 }
 
 enum Role {
