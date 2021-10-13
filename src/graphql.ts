@@ -14,7 +14,7 @@ export enum EnumUserRole {
 }
 
 export class NewAppt {
-    author: string;
+    user: string;
     start_date: string;
     end_date: string;
 }
@@ -45,7 +45,7 @@ export class UpdateUser {
 
 export class Appointment {
     id: string;
-    author: User;
+    user: User;
     start_date: string;
     end_date: string;
     createdAt: string;
