@@ -25,6 +25,12 @@ export class UpdateAppt {
     end_date?: Nullable<string>;
 }
 
+export class FindApptsByUser {
+    user: string;
+    start_date?: Nullable<string>;
+    end_date?: Nullable<string>;
+}
+
 export class NewUser {
     email: string;
     first_name: string;
@@ -55,6 +61,8 @@ export abstract class IQuery {
     abstract appointments(): Appointment[] | Promise<Appointment[]>;
 
     abstract appointment(id: string): Nullable<Appointment> | Promise<Nullable<Appointment>>;
+
+    abstract appointmentsByUser(user: string): Nullable<Nullable<Appointment>[]> | Promise<Nullable<Nullable<Appointment>[]>>;
 
     abstract users(): User[] | Promise<User[]>;
 

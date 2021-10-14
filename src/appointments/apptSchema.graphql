@@ -18,9 +18,16 @@ input UpdateAppt {
     end_date: String
 }
 
+input findApptsByUser {
+    user: ID!
+    start_date: String
+    end_date: String
+}
+
 type Query {
     appointments: [Appointment!]!
     appointment(id: ID!): Appointment
+    appointmentsByUser(user: ID!): [Appointment]
 }
 
 type Mutation {
