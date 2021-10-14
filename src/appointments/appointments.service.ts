@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Appointment } from '@prisma/client';
 import { createApptDTO } from './dto/createAppt.dto';
+import { updateApptDTO } from './dto/updateAppt.dto';
+import { getApptsDTO } from './dto/appts.dto';
 import { UserNotFoundException, ApptNotFoundException } from '../exceptions/NotFound.exception';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaError } from '../utils/prismaError';
@@ -28,11 +30,34 @@ export class AppointmentsService {
 
     // Get multiple posts
     async appointments(): Promise<Appointment[]> {
-        return this.prisma.appointment.findMany({
+        const appointments = await this.prisma.appointment.findMany({
             include: {
                 user: true, // Return all fields
             },
         });
+        return appointments
+    }
+
+    //get list appointment by user
+    async appointmentsByUser(id: string): Promise<Appointment[]> {
+        const userExist = await this.prisma.user.findUnique({
+            where: {
+                id: parseInt(id),
+            },
+        });
+
+        if (!userExist) throw new UserNotFoundException(parseInt(id));
+
+        const appointments = await this.prisma.appointment.findMany({
+            where: {
+                userId: parseInt(id),
+            },
+            include: {
+                user: true, // Return all fields
+            },
+        });
+
+        return appointments;
     }
 
     // Create an appointment
@@ -47,11 +72,11 @@ export class AppointmentsService {
         if (!userExist) throw new UserNotFoundException(parseInt(input.user));
 
         if (Date.parse(input.start_date) < today.valueOf()) {
-            throw new HttpException('Start date must be greater than or equal to today', HttpStatus.BAD_REQUEST);
-        } 
-        
+            throw new HttpException('Start date must be greater than today', HttpStatus.BAD_REQUEST);
+        }
+
         if (Date.parse(input.start_date) > Date.parse(input.end_date)) {
-            throw new HttpException('End date must be less than start date', HttpStatus.BAD_REQUEST);
+            throw new HttpException('End date must be greater than start date', HttpStatus.BAD_REQUEST);
         }
 
         console.log(Date.parse(input.start_date))
@@ -71,6 +96,45 @@ export class AppointmentsService {
             },
         });
         return newAppt;
+    }
+
+    // Update an appointment
+    async updateAppt(params: updateApptDTO): Promise<Appointment> {
+        const { id, start_date, end_date } = params;
+        const today = new Date();
+
+        if (Date.parse(start_date) < today.valueOf()) {
+            throw new HttpException('Start date must be greater than today', HttpStatus.BAD_REQUEST);
+        }
+
+        if (Date.parse(start_date) > Date.parse(end_date)) {
+            throw new HttpException('End date must be greater than start date', HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            const updateAppt = await this.prisma.appointment.update({
+                where: {
+                    id: parseInt(id),
+                },
+                data: {
+                    ...(start_date && { start_date }),
+                    ...(end_date && { end_date })
+                },
+                include: {
+                    user: true, // Return all fields
+                },
+            });
+
+            return updateAppt;
+        } catch (error) {
+            if (
+                error instanceof PrismaClientKnownRequestError &&
+                error.code === PrismaError.RecordDoesNotExist
+            ) {
+                throw new ApptNotFoundException(parseInt(id));
+            }
+            throw error;
+        }
     }
 
     // delete an appointment
