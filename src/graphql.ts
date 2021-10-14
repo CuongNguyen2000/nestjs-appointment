@@ -1,4 +1,3 @@
-
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -15,18 +14,22 @@ export enum EnumUserRole {
 
 export class NewAppt {
     user: string;
+    name: string;
     start_date: string;
     end_date: string;
 }
 
 export class UpdateAppt {
     id: string;
+    name?: Nullable<string>;
     start_date?: Nullable<string>;
     end_date?: Nullable<string>;
 }
 
-export class FindApptsByUser {
-    user: string;
+export class FilterFindApptsByUser {
+    user?: Nullable<string>;
+    id?: Nullable<string>;
+    name?: Nullable<string>;
     start_date?: Nullable<string>;
     end_date?: Nullable<string>;
 }
@@ -52,6 +55,7 @@ export class UpdateUser {
 export class Appointment {
     id: string;
     user: User;
+    name: string;
     start_date: string;
     end_date: string;
     createdAt: string;
@@ -62,7 +66,7 @@ export abstract class IQuery {
 
     abstract appointment(id: string): Nullable<Appointment> | Promise<Nullable<Appointment>>;
 
-    abstract appointmentsByUser(user: string): Nullable<Nullable<Appointment>[]> | Promise<Nullable<Nullable<Appointment>[]>>;
+    abstract appointmentsByUser(filter?: Nullable<FilterFindApptsByUser>): Nullable<Nullable<Appointment>[]> | Promise<Nullable<Nullable<Appointment>[]>>;
 
     abstract users(): User[] | Promise<User[]>;
 

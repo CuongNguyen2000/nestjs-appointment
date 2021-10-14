@@ -1,6 +1,7 @@
 type Appointment {
     id: ID!
     user: User!
+    name: String!
     start_date: String!
     end_date: String!
     createdAt: String!
@@ -8,18 +9,22 @@ type Appointment {
 
 input NewAppt {
     user: ID!
+    name: String!
     start_date: String!
     end_date: String!
 }
 
 input UpdateAppt {
     id: ID!
+    name: String
     start_date: String
     end_date: String
 }
 
-input findApptsByUser {
-    user: ID!
+input FilterFindApptsByUser {
+    user: ID
+    id: ID
+    name: String
     start_date: String
     end_date: String
 }
@@ -27,7 +32,7 @@ input findApptsByUser {
 type Query {
     appointments: [Appointment!]!
     appointment(id: ID!): Appointment
-    appointmentsByUser(user: ID!): [Appointment]
+    appointmentsByUser(filter: FilterFindApptsByUser): [Appointment]
 }
 
 type Mutation {

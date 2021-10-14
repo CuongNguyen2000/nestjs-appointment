@@ -12,6 +12,7 @@ generator client {
 
 model Appointment {
   id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(50)
   start_date DateTime
   end_date   DateTime
   user       User     @relation(fields: [userId], references: [id])
