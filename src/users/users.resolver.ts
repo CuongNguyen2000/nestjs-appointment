@@ -24,7 +24,7 @@ export class UsersResolver {
 
     @Mutation('updateUser')
     async update(@Args('input') args: updateUserDTO) {
-        return this.userService.updatePost(args);
+        return this.userService.updateUser(args);
     }
 
     @Mutation('deleteUser')

@@ -20,10 +20,7 @@ export class UsersService {
         });
 
         if (user)
-            throw new HttpException(
-                'User is already exist',
-                HttpStatus.BAD_REQUEST,
-            );
+            throw new HttpException('User is already exist', HttpStatus.BAD_REQUEST);
 
         const newUser = await this.prisma.user.create({
             data: input,
@@ -59,12 +56,12 @@ export class UsersService {
         });
     }
 
-    // Update a post
-    async updatePost(params: updateUserDTO): Promise<User> {
+    // Update a user
+    async updateUser(params: updateUserDTO): Promise<User> {
         const { id, first_name, last_name, birthdate, role } = params;
-        
+
         try {
-            const updatePost = await this.prisma.user.update({
+            const updateUser = await this.prisma.user.update({
                 where: {
                     id: parseInt(id),
                 },
@@ -79,7 +76,7 @@ export class UsersService {
                 },
             });
 
-            return updatePost;
+            return updateUser;
         } catch (error) {
             if (
                 error instanceof PrismaClientKnownRequestError &&
