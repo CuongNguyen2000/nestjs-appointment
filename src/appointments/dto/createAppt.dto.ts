@@ -2,7 +2,6 @@ import { IsString, IsNotEmpty } from 'class-validator';
 import { NewAppt } from '../../graphql';
 
 export class createApptDTO extends NewAppt {
-
     @IsString()
     @IsNotEmpty()
     readonly user: string;
@@ -14,5 +13,4 @@ export class createApptDTO extends NewAppt {
     @IsString()
     @IsNotEmpty()
     readonly end_date: string;
-
 }

@@ -1,18 +1,13 @@
-import { IsString, IsNotEmpty } from 'class-validator';
-import { FindApptsByUser } from '../../graphql';
+import { IsString } from 'class-validator';
+import { FilterFindApptsByUser } from '../../graphql';
 
-export class getApptsDTO extends FindApptsByUser {
+export class getApptsDTO extends FilterFindApptsByUser {
+    @IsString()
+    user: string;
 
     @IsString()
-    @IsNotEmpty()
-    readonly user: string;
+    start_date: string;
 
     @IsString()
-    @IsNotEmpty()
-    readonly start_date: string;
-
-    @IsString()
-    @IsNotEmpty()
-    readonly end_date: string;
-
+    end_date: string;
 }

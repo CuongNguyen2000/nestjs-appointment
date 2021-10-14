@@ -4,13 +4,16 @@ import { Appointment } from '@prisma/client';
 import { createApptDTO } from './dto/createAppt.dto';
 import { updateApptDTO } from './dto/updateAppt.dto';
 import { getApptsDTO } from './dto/appts.dto';
-import { UserNotFoundException, ApptNotFoundException } from '../exceptions/NotFound.exception';
+import {
+    UserNotFoundException,
+    ApptNotFoundException,
+} from '../exceptions/NotFound.exception';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaError } from '../utils/prismaError';
 
 @Injectable()
 export class AppointmentsService {
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService) {}
 
     // Get a single appointment
     async appointment(id: string): Promise<Appointment | null> {
@@ -35,22 +38,37 @@ export class AppointmentsService {
                 user: true, // Return all fields
             },
         });
-        return appointments
+        return appointments;
     }
 
     //get list appointment by user
-    async appointmentsByUser(id: string): Promise<Appointment[]> {
+    async appointmentsByUser(filter: getApptsDTO): Promise<Appointment[]> {
         const userExist = await this.prisma.user.findUnique({
             where: {
-                id: parseInt(id),
+                id: parseInt(filter.user),
             },
         });
 
-        if (!userExist) throw new UserNotFoundException(parseInt(id));
+        if (!userExist) throw new UserNotFoundException(parseInt(filter.user));
+
+        const startDate = new Date(Date.parse(filter.start_date));
+        const endDate = new Date(Date.parse(filter.end_date));
 
         const appointments = await this.prisma.appointment.findMany({
             where: {
-                userId: parseInt(id),
+                AND: [
+                    { userId: parseInt(filter.user) },
+                    {
+                        start_date: {
+                            gte: startDate,
+                        },
+                    },
+                    {
+                        end_date: {
+                            lte: endDate,
+                        },
+                    },
+                ],
             },
             include: {
                 user: true, // Return all fields
@@ -72,15 +90,21 @@ export class AppointmentsService {
         if (!userExist) throw new UserNotFoundException(parseInt(input.user));
 
         if (Date.parse(input.start_date) < today.valueOf()) {
-            throw new HttpException('Start date must be greater than today', HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                'Start date must be greater than today',
+                HttpStatus.BAD_REQUEST,
+            );
         }
 
         if (Date.parse(input.start_date) > Date.parse(input.end_date)) {
-            throw new HttpException('End date must be greater than start date', HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                'End date must be greater than start date',
+                HttpStatus.BAD_REQUEST,
+            );
         }
 
-        console.log(Date.parse(input.start_date))
-        console.log(Date.parse(input.end_date))
+        console.log(Date.parse(input.start_date));
+        console.log(Date.parse(input.end_date));
 
         const newAppt = await this.prisma.appointment.create({
             data: {
@@ -104,11 +128,17 @@ export class AppointmentsService {
         const today = new Date();
 
         if (Date.parse(start_date) < today.valueOf()) {
-            throw new HttpException('Start date must be greater than today', HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                'Start date must be greater than today',
+                HttpStatus.BAD_REQUEST,
+            );
         }
 
         if (Date.parse(start_date) > Date.parse(end_date)) {
-            throw new HttpException('End date must be greater than start date', HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                'End date must be greater than start date',
+                HttpStatus.BAD_REQUEST,
+            );
         }
 
         try {
@@ -118,7 +148,7 @@ export class AppointmentsService {
                 },
                 data: {
                     ...(start_date && { start_date }),
-                    ...(end_date && { end_date })
+                    ...(end_date && { end_date }),
                 },
                 include: {
                     user: true, // Return all fields
@@ -139,7 +169,6 @@ export class AppointmentsService {
 
     // delete an appointment
     async deleteAppt(id: string): Promise<Appointment> {
-
         try {
             const deleteAppt = await this.prisma.appointment.delete({
                 where: {
