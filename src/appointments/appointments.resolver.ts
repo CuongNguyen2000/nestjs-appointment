@@ -6,7 +6,7 @@ import { getApptsDTO } from './dto/appts.dto';
 
 @Resolver()
 export class AppointmentsResolver {
-    constructor(private readonly apptService: AppointmentsService) { }
+    constructor(private readonly apptService: AppointmentsService) {}
 
     @Query('appointments')
     async appointments() {
@@ -19,7 +19,7 @@ export class AppointmentsResolver {
     }
 
     @Query('appointmentsByUser')
-    async appointmentsByUser(@Args('user') args: string) {
+    async appointmentsByUser(@Args('filter') args: getApptsDTO) {
         return this.apptService.appointmentsByUser(args);
     }
 

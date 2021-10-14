@@ -4,6 +4,6 @@ import { AppointmentsResolver } from './appointments.resolver';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
-  providers: [AppointmentsService, AppointmentsResolver, PrismaService]
+    providers: [AppointmentsService, AppointmentsResolver, PrismaService],
 })
 export class AppointmentsModule {}

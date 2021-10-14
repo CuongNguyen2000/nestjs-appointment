@@ -8,20 +8,20 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration],
-    }),
-    GraphQLModule.forRoot({
-      typePaths: ['./**/*.graphql'],
-    }),
-    PrismaModule,
-    LoggerModule,
-    UsersModule,
-    AppointmentsModule,
-  ],
-  controllers: [],
-  providers: [],
+    imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            load: [configuration],
+        }),
+        GraphQLModule.forRoot({
+            typePaths: ['./**/*.graphql'],
+        }),
+        PrismaModule,
+        LoggerModule,
+        UsersModule,
+        AppointmentsModule,
+    ],
+    controllers: [],
+    providers: [],
 })
-export class AppModule { }
+export class AppModule {}

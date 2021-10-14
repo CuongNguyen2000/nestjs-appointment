@@ -19,5 +19,5 @@ export class updateUserDTO extends UpdateUser {
     birthdate: string;
 
     @IsEnum(EnumUserRole)
-    role: EnumUserRole
+    role: EnumUserRole;
 }

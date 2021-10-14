@@ -9,7 +9,7 @@ import { PrismaError } from '../utils/prismaError';
 
 @Injectable()
 export class UsersService {
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService) {}
 
     // Create a new
     async createUser(input: createUserDTO): Promise<User> {
@@ -20,7 +20,10 @@ export class UsersService {
         });
 
         if (user)
-            throw new HttpException('User is already exist', HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                'User is already exist',
+                HttpStatus.BAD_REQUEST,
+            );
 
         const newUser = await this.prisma.user.create({
             data: input,

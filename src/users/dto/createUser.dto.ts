@@ -19,5 +19,5 @@ export class createUserDTO extends NewUser {
     readonly birthdate: string;
 
     @IsEnum(EnumUserRole)
-    readonly role: EnumUserRole
+    readonly role: EnumUserRole;
 }
